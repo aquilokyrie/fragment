@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- 
+    hibernate实体映射配置示例
+    映射-主键生成配置
+    映射-属性列
+    映射-一对多关联-一(使用many-to-one)
+    映射-一对多关联-多(使用set)
+-->
+<hibernate-mapping>
+    <!-- 
+        配置实体类和表的对应
+        name:java实体类,
+        table:数据库对应表,
+        catalog:mysql数据库名 
+    -->
+    <class name="cn.com.centrin.model.mall.Order" table="t_mall_order" catalog="innovation_cloud">
+
+        <!-- 主键生成器-uuid生成 -->
+        <id name="id" type="java.lang.String">
+            <column name="id" />
+            <generator class="uuid.hex" />
+        </id>
+
+        <!-- 普通属性列 -->
+        <property name="status" type="java.lang.String">
+            <column name="status" length="20"/>
+        </property>
+        <property name="refundStatus" type="java.lang.String">
+            <column name="refund_status" length="20"/>
+        </property>
+        <property name="dealDate" type="java.lang.String">
+            <column name="deal_date" length="20"/>
+        </property>
+        <property name="payDate" type="java.lang.String">
+            <column name="pay_date" length="20"/>
+        </property>
+        <property name="dispatchDate" type="java.lang.String">
+            <column name="dispatch_date" length="20"/>
+        </property>
+        <property name="completeDate" type="java.lang.String">
+            <column name="complete_date" length="20"/>
+        </property>
+        <property name="buyerMessage" type="java.lang.String">
+            <column name="buyer_message" length="20"/>
+        </property>
+        <property name="orderPrice" type="java.lang.String">
+            <column name="order_price" length="20"/>
+        </property>
+        <property name="refundReason" type="java.lang.String">
+            <column name="refund_reason" length="256"/>
+        </property>
+        <property name="refuseReason" type="java.lang.String">
+            <column name="refuse_reason" length="256"/>
+        </property>
+        <property name="cancelReason" type="java.lang.String">
+            <column name="cancel_reason" length="256"/>
+        </property>
+        <property name="isDeleted" type="java.lang.String">
+            <column name="is_deleted" length="1"/>
+        </property>
+        
+        <!-- 实体类当中的复合类型,一对多当中的"一" -->
+        <many-to-one name="seller" class="cn.com.centrin.model.EnterpriseUser" fetch="select" lazy="false" unique="true">
+       		<column name="seller_id" scale="0"></column>
+        </many-to-one>
+        <many-to-one name="buyer" class="cn.com.centrin.model.EnterpriseUser" fetch="select" lazy="false" unique="true">
+       		<column name="buyer_id" scale="0"></column>
+        </many-to-one>
+
+        <!-- 实体类当中的复合类型,一对多当中的"多" -->
+		<set name="products" inverse="false" lazy="false" cascade="save-update" table="t_mall_order_product">
+            <key column="order_id"></key>
+            <one-to-many class="cn.com.centrin.model.mall.OrderProductMapInfo" />
+        </set>
+        
+    </class>
+</hibernate-mapping>
