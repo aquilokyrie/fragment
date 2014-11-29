@@ -18,7 +18,7 @@ import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * dao 基类
+ * 中金 dao 基类
  * 
  * @author shengyidong
  * 
